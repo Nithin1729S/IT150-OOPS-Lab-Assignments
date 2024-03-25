@@ -1,46 +1,32 @@
 #include <iostream>
+#include <vector>
 
 class Matrix;
 
 void addMatrices(const Matrix &mat1, const Matrix &mat2);
 
-class Matrix
-{
+class Matrix {
 private:
     int rows, cols;
-    int **data;
+    std::vector<std::vector<int>> data;
 
 public:
-    Matrix(int rows, int cols) : rows(rows), cols(cols)
-    {
+    Matrix(int rows, int cols) : rows(rows), cols(cols), data(rows, std::vector<int>(cols)) {}
 
-        data = new int *[rows];
-        for (int i = 0; i < rows; ++i)
-        {
-            data[i] = new int[cols];
-        }
-    }
-
-    void inputMatrix()
-    {
+    void inputMatrix() {
         std::cout << "Enter matrix elements:" << std::endl;
-        for (int i = 0; i < rows; ++i)
-        {
-            for (int j = 0; j < cols; ++j)
-            {
+        for (int i = 0; i < rows; ++i) {
+            for (int j = 0; j < cols; ++j) {
                 std::cout << "Enter element at position (" << i + 1 << ", " << j + 1 << "): ";
                 std::cin >> data[i][j];
             }
         }
     }
 
-    void displayMatrix() const
-    {
+    void displayMatrix() const {
         std::cout << "Matrix:" << std::endl;
-        for (int i = 0; i < rows; ++i)
-        {
-            for (int j = 0; j < cols; ++j)
-            {
+        for (int i = 0; i < rows; ++i) {
+            for (int j = 0; j < cols; ++j) {
                 std::cout << data[i][j] << " ";
             }
             std::cout << std::endl;
@@ -50,20 +36,16 @@ public:
     friend void addMatrices(const Matrix &mat1, const Matrix &mat2);
 };
 
-void addMatrices(const Matrix &mat1, const Matrix &mat2)
-{
-    if (mat1.rows != mat2.rows || mat1.cols != mat2.cols)
-    {
+void addMatrices(const Matrix &mat1, const Matrix &mat2) {
+    if (mat1.rows != mat2.rows || mat1.cols != mat2.cols) {
         std::cout << "Matrix addition is not possible. Matrices must have the same dimensions." << std::endl;
         return;
     }
 
     Matrix result(mat1.rows, mat1.cols);
 
-    for (int i = 0; i < mat1.rows; ++i)
-    {
-        for (int j = 0; j < mat1.cols; ++j)
-        {
+    for (int i = 0; i < mat1.rows; ++i) {
+        for (int j = 0; j < mat1.cols; ++j) {
             result.data[i][j] = mat1.data[i][j] + mat2.data[i][j];
         }
     }
@@ -72,8 +54,7 @@ void addMatrices(const Matrix &mat1, const Matrix &mat2)
     result.displayMatrix();
 }
 
-int main()
-{
+int main() {
     int rows, cols;
 
     std::cout << "Enter the number of rows for matrices: ";
